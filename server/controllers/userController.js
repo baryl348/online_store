@@ -13,19 +13,27 @@ const generateJwt = (id, email, role,firstName,secondName) => {
 
 class UserController {
     async registration(req, res, next) {
-        const {email, password,firstName,secondName, role} = req.body
-        if (!email || !password) {
-            return next(ApiError.badRequest('Некорректный email или password'))
+        try {
+            const {email, password, firstName, secondName, role} = req.body
+            if (!email || !password) {
+                return next(ApiError.badRequest('Некорректный email или password'))
+            }
+            if(!firstName || !secondName){
+                return next (ApiError.badRequest('Были некорректно введены  Имя или Фамилия'))
+            }
+            const candidate = await User.findOne({where: {email}})
+            if (candidate) {
+                return next(ApiError.badRequest('Пользователь с таким email уже существует'))
+            }
+            const hashPassword = await bcrypt.hash(password, 5)
+            const user = await User.create({email, role, firstName, secondName, password: hashPassword})
+            const basket = await Basket.create({userId: user.id})
+            const token = generateJwt(user.id, user.email, user.role,user.firstName,user.secondName)
+            return res.json({token})
+        } catch (error) {
+            console.log(error)
         }
-        const candidate = await User.findOne({where: {email}})
-        if (candidate) {
-            return next(ApiError.badRequest('Пользователь с таким email уже существует'))
-        }
-        const hashPassword = await bcrypt.hash(password, 5)
-        const user = await User.create({email, role, firstName,secondName, password: hashPassword})
-        const basket = await Basket.create({userId: user.id})
-        const token = generateJwt(user.id, user.email, user.role,user.firstName,user.secondName)
-        return res.json({token})
+        
     }
 
     async login(req, res, next) {
@@ -43,7 +51,7 @@ class UserController {
     }
 
     async check(req, res, next) {
-        const token = generateJwt(req.user.id, req.user.email, req.user.role)
+        const token = generateJwt(req.user.id, req.user.email, req.user.firstName, req.user.SecondName, req.user.role)
         return res.json({token})
     }
 }
