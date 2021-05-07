@@ -15,9 +15,8 @@ const initialState = {
 
 const authReducer = (state = initialState, action: ActionTypes) => {
     switch (action.type) {
-        case "SET_USER_DATA"
-            && "SET_STATUS_LOADING"
-            && 'SET_ERROR': { return { ...state, ...action.payload } }
+        case "SET_STATUS_LOADING":
+        case "SET_USER_DATA": return { ...state, ...action.payload }
         // case "SET_STATUS_LOADING": { return { ...state, ...action.payload } }
         default:
             return state
@@ -33,7 +32,7 @@ export const registrationThunk = (firstName: string, secondName: string, email: 
     try {
         dispatch(actions.setStatusLoading(true))
         const registrationData = await auth.registration(firstName, secondName, email, password)
-        const token = registrationData.data.token
+        const token = registrationData.data
         window.localStorage.setItem('token', token)
     } catch (error) {
         console.log(error)
@@ -43,14 +42,14 @@ export const registrationThunk = (firstName: string, secondName: string, email: 
 }
 export const loginThunk = (email: string, password: string): ThunkType => async (dispatch) => {
     try {
-        const loginData = await auth.login(email, password)
         dispatch(actions.setStatusLoading(true))
-        const { firstName, secondName, userId } = loginData.data.login
-        dispatch(actions.setAuthUserData(firstName, secondName, loginData.data.login.email, userId, true))
-        const token = loginData.data.token
+        const loginData = await auth.login(email, password)
+        const token = loginData.data
         window.localStorage.setItem('token', token)
+        const { firstName, secondName, userId, } = loginData.dataUser
+        dispatch(actions.setAuthUserData(firstName, secondName, loginData.dataUser.email, userId, true))
     } catch (error) {
-        console.log()
+        console.log(error)
     } finally {
         dispatch(actions.setStatusLoading(false))
     }

@@ -2,17 +2,21 @@ import React from 'react'
 import { Formik, Form, Field } from 'formik'
 import { connect } from 'react-redux';
 import { loginThunk } from '../../../redux/reducers/auth-reducer'
-import { AppState } from '../../../redux/redux-store';
+import style from './login.module.scss'
+
 
 interface propsType {
     loginThunk: (email: string, password: string) => void
-    error: string | null
+    isAuth: boolean
+    firstName: string
 }
 
 
-const LoginPage: React.FC<propsType> = ({ loginThunk, error }) => {
+const LoginPage: React.FC<propsType & any> = ({ loginThunk }) => {
+
+
     return (
-        <div>
+        <div className={style.login} >
             <Formik
                 initialValues={{ email: '', password: '' }}
                 //    validate={values => {
@@ -28,14 +32,15 @@ const LoginPage: React.FC<propsType> = ({ loginThunk, error }) => {
                 //    }}
                 onSubmit={(values, { setSubmitting }) => {
                     setTimeout(() => {
-                        // alert(JSON.stringify(values, null, 2));
                         loginThunk(values.email, values.password,)
                         setSubmitting(false);
                     }, 400);
                 }}
             >
                 {({ isSubmitting }) => (
-                    <Form>
+
+                    <Form className={style.login__form}>
+                        <h1>Login</h1>
                         <Field type="email" name="email" />
                         {/* <ErrorMessage name="email" component="div" /> */}
                         <Field type="password" name="password" />
@@ -44,11 +49,8 @@ const LoginPage: React.FC<propsType> = ({ loginThunk, error }) => {
                     </Form>
                 )}
             </Formik>
-            <span>{error}</span>
         </div>
     )
 }
-const mapStateToProps = (state: AppState) => ({
-    error: state.auth.error
-})
-export default connect(mapStateToProps, { loginThunk })(LoginPage)
+
+export default connect(null, { loginThunk })(LoginPage)

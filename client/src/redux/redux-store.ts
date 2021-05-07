@@ -1,9 +1,11 @@
 import { Action, applyMiddleware, combineReducers, createStore } from "redux";
 import thunk, { ThunkAction } from "redux-thunk";
 import authReducer from "./reducers/auth-reducer";
+import deviceReducer from "./reducers/device-reducer";
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    device: deviceReducer
 })
 
 

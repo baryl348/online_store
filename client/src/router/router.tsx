@@ -13,9 +13,13 @@ export const useRouter = (isAuth: boolean) => {
     if (isAuth) {
         return (
             <Switch>
+                <Redirect to="/main" />
                 <Route path='/admin' render={() => <AdminPage />} />
                 <Route path="/basket" render={() => <Basket />} />
-                <Redirect to="/" />
+                <Route path="/main" render={() => <Shop />} />
+                <Route path="/device/:id" render={() => <Device />} />
+                <Route path="/login" render={() => <LoginPage />} />
+                <Route path="/registration" render={() => <RegistrationPage />} />
             </Switch>
         )
     }
@@ -23,9 +27,9 @@ export const useRouter = (isAuth: boolean) => {
         <Switch>
             <Route path="/login" render={() => <LoginPage />} />
             <Route path="/registration" render={() => <RegistrationPage />} />
-            <Route path="/" render={() => <Shop />} />
+            <Route path="/main" render={() => <Shop />} />
             <Route path="/device/:id" render={() => <Device />} />
-            <Redirect to='/' />
+            <Redirect to='/main' />
         </Switch>
     )
 }

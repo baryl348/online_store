@@ -29,7 +29,7 @@ class UserController {
             const user = await User.create({email, role, firstName, secondName, password: hashPassword})
             const basket = await Basket.create({userId: user.id})
             const token = generateJwt(user.id, user.email, user.role,user.firstName,user.secondName)
-            return res.json({token})
+            return res.json({data:token})
         } catch (error) {
             console.log(error)
         }
@@ -37,7 +37,8 @@ class UserController {
     }
 
     async login(req, res, next) {
-        const {email, password} = req.body
+        try {
+            const {email, password} = req.body
         const user = await User.findOne({where: {email}})
         if (!user) {
             return next(ApiError.internal('Пользователь не найден'))
@@ -46,9 +47,13 @@ class UserController {
         if (!comparePassword) {
             return next(ApiError.internal('Указан неверный пароль'))
         }
-        const token = generateJwt(user.id, user.email, user.role)
-        
-        return res.json({token,login:{firstName:user.firstName,secondName:user.secondName,email:user.email}})
+        const token = generateJwt(user.id, user.email, user.firstName,user.secondName, user.role)
+        const {firstName, secondName, id,} = user
+        return res.json({data:token, dataUser:{firstName,secondName,email:user.email,id}} ) 
+        } catch (error) {
+            console.log(error)
+        }
+       
     }
 
     async check(req, res, next) {

@@ -10,8 +10,9 @@ interface propsType {
 
 const App: React.FC<propsType & any> = ({ isAuth }) => {
   const routes = useRouter(isAuth)
+  console.log(isAuth, 'app')
   return (
-    <div>
+    <div className='wrapper'>
       {routes}
     </div>
   )

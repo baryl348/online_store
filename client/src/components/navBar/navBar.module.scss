@@ -1,0 +1,21 @@
+.navBar {
+    width: 100%;
+    background: red;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__logo {
+        margin-left: 10px;
+    }
+    &__nav {
+        margin-right: 15px;
+        span {
+            margin-right: 10px;
+            &:last-child {
+                margin-right: 0;
+                cursor: pointer;
+            }
+        }
+    }
+}
