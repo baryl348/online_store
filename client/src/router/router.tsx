@@ -5,7 +5,8 @@ import LoginPage from '../components/auth/login/login'
 import RegistrationPage from '../components/auth/registration/registration'
 import Basket from '../components/basket/basket'
 import Device from '../components/device/device'
-import Shop from '../components/shop/shop'
+import ShopContainer from '../container/shop/shop-container'
+
 
 
 
@@ -16,7 +17,7 @@ export const useRouter = (isAuth: boolean) => {
                 <Redirect to="/main" />
                 <Route path='/admin' render={() => <AdminPage />} />
                 <Route path="/basket" render={() => <Basket />} />
-                <Route path="/main" render={() => <Shop />} />
+                <Route path="/main" render={() => <ShopContainer />} />
                 <Route path="/device/:id" render={() => <Device />} />
                 <Route path="/login" render={() => <LoginPage />} />
                 <Route path="/registration" render={() => <RegistrationPage />} />
@@ -27,7 +28,7 @@ export const useRouter = (isAuth: boolean) => {
         <Switch>
             <Route path="/login" render={() => <LoginPage />} />
             <Route path="/registration" render={() => <RegistrationPage />} />
-            <Route path="/main" render={() => <Shop />} />
+            <Route path="/main" render={() => <ShopContainer />} />
             <Route path="/device/:id" render={() => <Device />} />
             <Redirect to='/main' />
         </Switch>

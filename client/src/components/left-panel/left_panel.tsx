@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { AppState } from '../../redux/redux-store'
-import { actionsDevice, TypedeviceType } from '../../redux/reducers/device-reducer'
+import { actionsDevice, InitialStateType, TypedeviceType } from '../../redux/reducers/device-reducer'
 import style from './left-panel.module.scss'
 
 
 
 interface propsType {
-    typeDevice: any
-    deviceAction: any
+    typeDevice: InitialStateType
+    deviceAction: { id: number | null }
+    actionDevice: (id: number) => void
 }
-// TODO смделдать типы
 
-const LeftPanel: React.FC<propsType & any> = ({ typeDevice, actionDevice, deviceAction }) => {
+const LeftPanel: React.FC<propsType> = ({ typeDevice, actionDevice, deviceAction }) => {
     const state = typeDevice
     return (
-        <div>
+        <div className={style.left__panel}>
             <ul>
-                {state.typeDevice.map((type: any) =>
-                    (<ol key={type.id} onClick={() => actionDevice(type.id)} className={(type.id === deviceAction.id ? style.test2 : '')} >{type.name}</ol>)
+                {state.typeDevice.map((type: TypedeviceType) =>
+                    (<ol key={type.id} onClick={() => actionDevice(type.id)} className={(type.id === deviceAction.id ? style.left__panel_list : '')} >{type.name}</ol>)
                 )}
             </ul>
         </div>
