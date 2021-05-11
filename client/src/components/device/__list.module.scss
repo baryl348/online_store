@@ -1,0 +1,27 @@
+.device__list {
+    margin: 0 40px 0 40px;
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        ol {
+            margin-right: 50px;
+            text-align: center;
+            margin-bottom: 50px;
+            img {
+                width: 180px;
+                height: 170px;
+                cursor: pointer;
+            }
+            span::before {
+                content: "★";
+                color: gold;
+                display: inline;
+            }
+        }
+    }
+    &__name_device {
+        line-height: 25px;
+        font-size: 19px;
+        cursor: pointer;
+    }
+}

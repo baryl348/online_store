@@ -24,5 +24,15 @@ export const auth = {
     },
     async registration(firstName: string, secondName: string, email: string, password: string) {
         return (await notAuthInstance.post(`/user/registration`, { email, firstName, password, secondName, })).data
-    }
+    },
+
+}
+
+export const devices = {
+    async typeDevice() {
+        return (await notAuthInstance.get(`/type`)).data
+    },
+    async brand() {
+        return (await notAuthInstance.get(`/brand`)).data
+    },
 }

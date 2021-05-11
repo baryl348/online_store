@@ -2,6 +2,6 @@ import React from 'react'
 
 
 const Device: React.FC = () => {
-    return <></>
+    return <div> list device </div>
 }
 export default Device
