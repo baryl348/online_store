@@ -28,7 +28,7 @@ class UserController {
             const hashPassword = await bcrypt.hash(password, 5)
             const user = await User.create({email, role, firstName, secondName, password: hashPassword})
             const basket = await Basket.create({userId: user.id})
-            const token = generateJwt(user.id, user.email, user.role,user.firstName,user.secondName)
+            const token = generateJwt(user.id, user.email, user.role,user.firstName,user.secondName,)
             return res.json({data:token})
         } catch (error) {
             console.log(error)
@@ -48,15 +48,15 @@ class UserController {
             return next(ApiError.internal('Указан неверный пароль'))
         }
         const token = generateJwt(user.id, user.email, user.firstName,user.secondName, user.role)
-        const {firstName, secondName, id,} = user
-        return res.json({data:token, dataUser:{firstName,secondName,email:user.email,id}} ) 
+        const {firstName, secondName, role } = user
+        return res.json({data:token, dataUser:{userId:user.id,firstName,secondName,email:user.email,role}} ) 
         } catch (error) {
             console.log(error)
         }
     }
 
     async check(req, res, next) {
-        const token = generateJwt(req.user.id, req.user.email, req.user.firstName, req.user.secondName, req.user.role)
+        const token = generateJwt(req.user.id,req.user.firstName, req.user.secondName, req.user.email, req.user.role)
         return res.json({token})
     }
 }

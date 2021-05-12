@@ -25,6 +25,9 @@ export const auth = {
     async registration(firstName: string, secondName: string, email: string, password: string) {
         return (await notAuthInstance.post(`/user/registration`, { email, firstName, password, secondName, })).data
     },
+    async checkUser(userId: number | null, firstName: string | null, secondName: string | null, email: string | null, role: string | null) {
+        return (await notAuthInstance.get(`/user/auth`, { params: { userId, firstName, secondName, email, role } })).data
+    }
 
 }
 
